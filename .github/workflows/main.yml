@@ -23,8 +23,8 @@ jobs:
     - run: |-
         _tfdir=prod
         echo $TERRAFORM_ENV_BASE64 | base64 -d > ${_tfdir}/terraform.tfvars
-        terraform init
-        terrraform plan
+        terraform -chdir=${_tfdir} init
+        terrraform -chdir=${_tfdir} plan
     - run: |-
         echo "Plan output:"
         echo ${{ steps.plan.outputs.stdout }}
