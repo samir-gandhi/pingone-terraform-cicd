@@ -21,12 +21,14 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    - run: |-
+    - id: plan
+      run: |-
         _tfdir=prod
         echo $TERRAFORM_ENV_BASE64 | base64 -d > tfvars
         source tfvars
         terraform -chdir=${_tfdir} init
         terraform -chdir=${_tfdir} plan
+        
     - run: |-
         echo "Plan output:"
         echo ${{ steps.plan.outputs.stdout }}
