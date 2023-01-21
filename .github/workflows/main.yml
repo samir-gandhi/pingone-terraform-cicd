@@ -21,20 +21,10 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    - id: plan
-      run: |-
+    - run: |-
         _tfdir=prod
         echo $TERRAFORM_ENV_BASE64 | base64 -d > tfvars
         source tfvars
         terraform -chdir=${_tfdir} init
         terraform -chdir=${_tfdir} plan
-        
-    - run: |-
-        echo "Plan output:"
-        echo ${{ steps.plan.outputs.stdout }}
-        echo ""
-        echo "Plan Errors:"
-        echo ${{ steps.plan.outputs.stderr }}
-        echo ""
-        echo "Plan exit code"
-        echo ${{ steps.plan.outputs.exitcode }}
+        terraform -chdir=${_tfdir} apply --auto-approve
