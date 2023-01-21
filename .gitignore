@@ -1,8 +1,8 @@
 terraform.tfvars
 *.bak
 *.local
-localvars
-glitchenv
+localvars*
+glitchenv*
 
 # Local .terraform directories
 **/.terraform/*
