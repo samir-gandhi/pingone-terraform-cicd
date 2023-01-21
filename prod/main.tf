@@ -9,11 +9,48 @@ terraform {
   }
 }
 
+provider "pingone" {
+  client_id = var.pingone_client_id
+  client_secret = var.pingone_client_secret
+  environment_id = var.pingone_environment_id
+  region         = var.pingone_region
+  force_delete_production_type = false
+}
+
+provider "davinci" {
+  username = var.pingone_username
+  password = var.pingone_password
+  environment_id = var.pingone_environment_id
+  region = var.pingone_region
+}
+
+data "pingone_environment" "admin_environment" {
+  environment_id = var.pingone_environment_id
+}
+
+# Find license based on license name
+
+data "pingone_licenses" "internal" {
+  organization_id = data.pingone_environment.admin_environment.organization_id
+
+  data_filter {
+    name = "name"
+    values = [
+      "INTERNAL"
+    ]
+  }
+
+  data_filter {
+    name   = "status"
+    values = ["ACTIVE"]
+  }
+}
+
 resource "pingone_environment" "environment" {
   name        = var.environment_name
   description = "BXI Dev"
   type        = "SANDBOX"
-  license_id  = var.pingone_license_id
+  license_id  = data.pingone_licenses.internal.ids[0]
 
   default_population {
     name        = "My Population"

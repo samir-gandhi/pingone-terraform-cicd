@@ -54,3 +54,5 @@ done
 for i in BXI_DASHBOARD_POLICY_ID BXI_GENERIC_POLICY_ID BXI_REMIX_POLICY_ID BXI_SHOW_REMIX_BUTTON BXI_GLITCH_REMIX_PROJECT ; do
   printf "%s=\n" "$i" >> ${_envFileName}
 done
+
+cat ${_envFileName}
