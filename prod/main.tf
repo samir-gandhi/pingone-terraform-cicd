@@ -1,4 +1,10 @@
 terraform {
+  cloud {
+    organization = "sko"
+    workspaces {
+      name = "sko-cicd-prod"
+    }
+  }
   required_providers {
     pingone = {
       source = "pingidentity/pingone"
