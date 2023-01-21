@@ -126,17 +126,6 @@ resource "pingone_mfa_policy" "standard" {
 
 }
 
-resource "pingone_notification_template_content" "email" {
-  environment_id = pingone_environment.environment.id
-  template_name  = "general"
-  locale         = "en"
-
-  email {
-    body    = "You have successfully registered!"
-    subject = "BXI Registration Complete"
-  }
-}
-
 data "davinci_connections" "all" {
   environment_id = resource.pingone_role_assignment_user.admin_sso.scope_environment_id
   depends_on = [
@@ -186,34 +175,6 @@ resource "davinci_connection" "mfa" {
   properties {
     name  = "policyId"
     value = resource.pingone_mfa_policy.standard.id
-  }
-  properties {
-    name  = "region"
-    value = coalesce(
-      resource.pingone_environment.environment.region == "Europe" ? "EU" :"",
-      resource.pingone_environment.environment.region == "AsiaPacific" ? "AP" :"",
-      resource.pingone_environment.environment.region == "Canada" ? "CA" :"",
-      resource.pingone_environment.environment.region == "NorthAmerica" ? "NA" :"",
-    )
-  }
-}
-
-resource "davinci_connection" "notifications" {
-  depends_on     = [data.davinci_connections.all]
-  environment_id = resource.pingone_role_assignment_user.admin_sso.scope_environment_id
-  connector_id   = "notificationsConnector"
-  name           = "PingOne Notifications"
-  properties {
-    name  = "clientId"
-    value = resource.pingone_application.worker.oidc_options[0].client_id
-  }
-  properties {
-    name  = "clientSecret"
-    value = resource.pingone_application.worker.oidc_options[0].client_secret
-  }
-  properties {
-    name  = "envId"
-    value = resource.pingone_role_assignment_user.admin_sso.scope_environment_id
   }
   properties {
     name  = "region"
