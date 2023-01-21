@@ -222,10 +222,6 @@ resource "davinci_flow" "bxi_registration" {
     connection_name = resource.davinci_connection.mfa.name
     connection_id = resource.davinci_connection.mfa.id
   }
-  connections {
-    connection_id = resource.davinci_connection.notifications.id
-    connection_name = resource.davinci_connection.notifications.name
-  }
   variables {
     variable_id = resource.davinci_variable.population.id
     variable_name = resource.davinci_variable.population.name
