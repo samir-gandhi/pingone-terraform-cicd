@@ -1,10 +1,4 @@
 terraform {
-  cloud {
-    organization = "sko"
-    workspaces {
-      name = "sko-cicd-prod"
-    }
-  }
   required_providers {
     pingone = {
       source = "pingidentity/pingone"
@@ -14,6 +8,7 @@ terraform {
     }
   }
 }
+
 
 provider "pingone" {
   client_id = var.pingone_client_id
@@ -239,7 +234,7 @@ resource "davinci_connection" "node" {
 
 resource "davinci_flow" "bxi_registration" {
   environment_id = resource.pingone_role_assignment_user.admin_sso.scope_environment_id
-  flow_json = file("BXI-Registration.json")
+  flow_json = file("${path.module}/BXI-Registration.json")
   depends_on = [data.davinci_connections.all]
   connections {
     connection_name = "PingOne"
@@ -277,7 +272,7 @@ resource "davinci_flow" "bxi_registration" {
 
 resource "davinci_flow" "bxi_authentication" {
   environment_id = resource.pingone_role_assignment_user.admin_sso.scope_environment_id
-  flow_json = file("BXI-Authentication.json")
+  flow_json = file("${path.module}/BXI-Authentication.json")
   depends_on = [data.davinci_connections.all]
   connections {
     connection_name = "PingOne"

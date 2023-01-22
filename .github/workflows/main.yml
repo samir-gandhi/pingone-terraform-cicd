@@ -22,7 +22,7 @@ jobs:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
     - run: |-
-        _tfdir=prod
+        _tfdir=tf/prod
         echo $TERRAFORM_ENV_BASE64 | base64 -d > tfvars
         source tfvars
         terraform -chdir=${_tfdir} init
