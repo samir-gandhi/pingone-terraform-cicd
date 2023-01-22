@@ -1,16 +1,14 @@
-name: Main Deploy
+name: Pull Request Validation
 on: 
-  push:
-    branches:
-      - 'main'
+  pull_request:
     paths:
       - 'tf/**'
       - '!tf/dev/**'
       - '.github/**'
 
 jobs:
-  deploy:
-    name: Deploy
+  test:
+    name: Validate
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
@@ -27,4 +25,4 @@ jobs:
         echo $TERRAFORM_ENV_BASE64 | base64 -d > tfvars
         source tfvars
         terraform -chdir=${_tfdir} init
-        terraform -chdir=${_tfdir} apply --auto-approve
+        terraform -chdir=${_tfdir} validate
