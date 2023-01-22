@@ -1,4 +1,4 @@
-name: Main Deploy
+name: Pull Request Validation
 on: 
   pull_request:
     paths:
@@ -7,8 +7,8 @@ on:
       - '.github/**'
 
 jobs:
-  deploy:
-    name: Deploy
+  test:
+    name: Validate
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
@@ -26,4 +26,3 @@ jobs:
         source tfvars
         terraform -chdir=${_tfdir} init
         terraform -chdir=${_tfdir} validate
-
