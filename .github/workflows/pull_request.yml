@@ -1,8 +1,6 @@
 name: Main Deploy
 on: 
-  push:
-    branches:
-      - 'main'
+  pull_request:
     paths:
       - 'tf/**'
       - '!tf/dev/**'
@@ -27,4 +25,5 @@ jobs:
         echo $TERRAFORM_ENV_BASE64 | base64 -d > tfvars
         source tfvars
         terraform -chdir=${_tfdir} init
-        terraform -chdir=${_tfdir} apply --auto-approve
+        terraform -chdir=${_tfdir} validate
+
