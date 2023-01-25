@@ -168,6 +168,7 @@ resource "pingone_notification_template_content" "email" {
   environment_id = pingone_environment.environment.id
   template_name  = "general"
   locale         = "en"
+  variant = "bxi_welcome"
 
   email {
     body    = "You have successfully registered!"
