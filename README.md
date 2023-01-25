@@ -60,6 +60,7 @@ You're now ready to deploy dev!
 From the root of the repo (e.g. `sko-tf-bifrost` folder):
 
 ```
+source localvars
 terraform -chdir=tf/dev init
 terraform -chdir=tf/dev apply
 ```
@@ -203,3 +204,27 @@ git status
 ```
 
 should show updates to two files
+
+## Promote
+
+
+## Terraformer
+
+`cd` to the `terraformer` folder: 
+
+```
+source localvars
+cd terraformer
+./terraformer-pingonedavinci-darwin-amd64 import pingonedavinci -r "*" -C=true --path-pattern generated/davinci/ -t <your-env-id>
+```
+
+Now you've pulled your whole terraform env to local. 
+To prove it: 
+
+```
+cd generated/davinci
+terraform init
+terraform apply
+```
+
+It should say there is nothing to do! whaaaaa
